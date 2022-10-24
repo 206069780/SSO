@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.sso.dao.PermissionDao">
+
+    <sql id="queryKeys">
+        <trim prefixOverrides=",">
+            ,UUID,permissionName,descriptions ,actions,sort ,createTime,updateTime,createUser,updateUser
+        </trim>
+    </sql>
+
+    <sql id="insertConfigKeys">
+        <trim prefixOverrides=",">
+            <if test="UUID          !=null and UUID          !=''">,UUID</if>
+            <if test="permissionName!=null and permissionName!=''">,permissionName</if>
+            <if test="descriptions  !=null and descriptions  !=''">,descriptions</if>
+            <if test="actions        !=null and actions        !=''">,actions</if>
+            <if test="sort          !=null and sort          !=''">,sort</if>
+            <if test="createTime    !=null and createTime    !=''">,createTime</if>
+            <if test="updateTime    !=null ">,updateTime</if>
+            <if test="createUser    !=null and createUser    !=''">,createUser</if>
+            <if test="updateUser    !=null and updateUser    !=''">,updateUser</if>
+        </trim>
+    </sql>
+    <sql id="insertConfigVals">
+        <trim prefixOverrides=",">
+            <if test="UUID          !=null and UUID          !=''">,#{UUID          }</if>
+            <if test="permissionName!=null and permissionName!=''">,#{permissionName}</if>
+            <if test="descriptions  !=null and descriptions  !=''">,#{descriptions  }</if>
+            <if test="actions        !=null and actions        !=''">,#{actions        }</if>
+            <if test="sort          !=null and sort          !=''">,#{sort          }</if>
+            <if test="createTime    !=null and createTime    !=''">,#{createTime    }</if>
+            <if test="updateTime    !=null ">,#{updateTime    }</if>
+            <if test="createUser    !=null and createUser    !=''">,#{createUser    }</if>
+            <if test="updateUser    !=null and updateUser    !=''">,#{updateUser    }</if>
+        </trim>
+    </sql>
+
+    <sql id="UpdateConfig">
+        <set>
+            <trim prefixOverrides=",">
+                <if test="UUID          !=null and UUID          !=''">,UUID =#{UUID}</if>
+                <if test="permissionName!=null and permissionName!=''">,permissionName=#{permissionName}</if>
+                <if test="descriptions  !=null and descriptions  !=''">,descriptions =#{descriptions}</if>
+                <if test="actions        !=null and actions        !=''">,actions =#{actions}</if>
+                <if test="sort          !=null and sort          !=''">,sort =#{sort}</if>
+                <if test="createTime    !=null and createTime    !=''">,createTime =#{createTime}</if>
+                <if test="updateTime    !=null ">,updateTime =#{updateTime}</if>
+                <if test="createUser    !=null and createUser    !=''">,createUser =#{createUser}</if>
+                <if test="updateUser    !=null and updateUser    !=''">,updateUser =#{updateUser}</if>
+            </trim>
+        </set>
+    </sql>
+
+    <sql id="WhereConfig">
+        <where>
+            <trim prefixOverrides="and">
+                <if test="UUID          !=null and UUID          !=''">and UUID =#{UUID}</if>
+                <if test="permissionName!=null and permissionName!=''">and permissionName=#{permissionName}</if>
+                <if test="descriptions  !=null and descriptions  !=''">and descriptions =#{descriptions}</if>
+                <if test="actions        !=null and actions        !=''">and actions =#{actions}</if>
+                <if test="sort          !=null and sort          !=''">and sort =#{sort}</if>
+                <if test="createTime    !=null and createTime    !=''">and createTime =#{createTime}</if>
+                <if test="updateTime    !=null ">and updateTime =#{updateTime}</if>
+                <if test="createUser    !=null and createUser    !=''">and createUser =#{createUser}</if>
+                <if test="updateUser    !=null and updateUser    !=''">and updateUser =#{updateUser}</if>
+            </trim>
+        </where>
+    </sql>
+
+    <select id="queryById" resultType="com.blog.sso.entity.Permission">
+        select
+        <include refid="queryKeys"/>
+        from permission where UUID =#{UUID}
+    </select>
+
+    <select id="query" parameterType="com.blog.sso.entity.Permission">
+        select
+        <include refid="queryKeys"/>
+        from permission
+        <include refid="WhereConfig"/>
+    </select>
+
+    <select id="queryByName" resultType="com.blog.sso.entity.Permission">
+        select
+        <include refid="queryKeys"/>
+        from permission where permissionName =#{permissionName}
+    </select>
+
+    <update id="edit" parameterType="com.blog.sso.entity.Permission">
+        update permission
+        <include refid="UpdateConfig"/>
+        where UUID = #{UUID}
+    </update>
+
+    <insert id="insert">
+        insert into permission(<include refid="insertConfigKeys"></include>)
+        value(<include refid="insertConfigVals"/>)
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from permission
+        where UUID = #{UUID}
+    </delete>
+
+    <delete id="delete">
+        delete
+        from permission
+        <include refid="WhereConfig"/>
+    </delete>
+</mapper>

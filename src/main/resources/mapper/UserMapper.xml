@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.sso.dao.UserDao">
+    <resultMap id="permissionMap" type="com.blog.sso.entity.Permission">
+        <result column="pUUID" property="UUID"></result>
+        <result column="ppermissionName" property="permissionName"></result>
+        <result column="pdescriptions" property="descriptions"></result>
+        <result column="pactions" property="actions"></result>
+        <result column="psort" property="sort"></result>
+        <result column="pcreateTime" property="createTime"></result>
+        <result column="pupdateTime" property="updateTime"></result>
+        <result column="pcreateUser" property="createUser"></result>
+    </resultMap>
+    <resultMap id="rolePermissionMap" type="com.blog.sso.entity.Role">
+        <result column="rUUID" property="UUID"></result>
+        <result column="rroleName" property="roleName"></result>
+        <result column="rdescriptions" property="descriptions"></result>
+        <result column="rsort" property="sort"></result>
+        <result column="rcreateTime" property="createTime"></result>
+        <result column="rupdateTime" property="updateTime"></result>
+        <result column="rcreateUse" property="createUser"></result>
+        <collection property="permissionsList" ofType="com.blog.sso.entity.Permission" resultMap="permissionMap"/>
+    </resultMap>
+
+    <resultMap id="userMap" type="com.blog.sso.entity.User">
+        <result column="uUUID" property="UUID"/>
+        <result column="uiAccount" property="account"/>
+        <result column="uusername" property="username"/>
+        <result column="uiPassword" property="password"/>
+        <result column="uqq" property="qq"/>
+        <result column="uwx" property="wx"/>
+        <result column="utell" property="tell"/>
+        <result column="uisAccountNonExpired" property="isAccountNonExpired"/>
+        <result column="uisAccountNonLocked" property="isAccountNonLocked"/>
+        <result column="uisCredentialsNonExpired" property="isCredentialsNonExpired"/>
+        <result column="uisEnabled" property="isEnabled"/>
+        <result column="uisDelete" property="isDelete"/>
+        <result column="usort" property="sort"/>
+        <result column="ucreateTime" property="createTime"/>
+        <result column="uupdateTime" property="updateTime"/>
+        <result column="ucreateUser" property="createUser"/>
+        <result column="uupdateUser" property="updateUser"/>
+        <collection property="roleList" ofType="com.blog.sso.entity.Role" resultMap="rolePermissionMap"/>
+    </resultMap>
+    <select id="queryByUserUUID" resultMap="userMap">
+        select u.UUID                    uUUID,
+               u.iAccount                uiAccount,
+               u.username                uusername,
+               u.iPassword               uiPassword,
+               u.qq                      uqq,
+               u.wx                      uwx,
+               u.tell                    utell,
+               u.isAccountNonExpired     uisAccountNonExpired,
+               u.isAccountNonLocked      uisAccountNonLocked,
+               u.isCredentialsNonExpired uisCredentialsNonExpired,
+               u.isEnabled               uisEnabled,
+               u.isDelete                uisDelete,
+               u.sort                    usort,
+               u.createTime              ucreateTime,
+               u.updateTime              uupdateTime,
+               u.createUser              ucreateUser,
+               u.updateUser              uupdateUser,
+               p.UUID                    pUUID,
+               p.permissionName          ppermissionName,
+               p.descriptions            pdescriptions,
+               p.actions                 pactions,
+               p.sort                    psort,
+               p.createTime              pcreateTime,
+               p.updateTime              pupdateTime,
+               p.createUser              pcreateUser,
+               r.UUID                    rUUID,
+               r.roleName                rroleName,
+               r.descriptions            rdescriptions,
+               r.sort                    rsort,
+               r.createTime              rcreateTime,
+               r.updateTime              rupdateTime,
+               r.createUser              rcreateUse
+        from user u
+                 left join user_role ur on u.UUID = ur.userId
+                 left join role r on ur.roleId = r.UUID
+                 left join role_permission rp on ur.roleId = rp.roleId
+                 left join permission p on rp.permissionId = p.UUID
+        where u.UUID = #{UUID}
+    </select>
+
+    <sql id="queryKeys">
+        <trim prefixOverrides=",">
+            ,UUID
+            ,iAccount as account
+            ,username
+            ,iPassword as password
+            ,qq
+            ,wx
+            ,tell
+            ,isAccountNonExpired
+            ,isAccountNonLocked
+            ,isCredentialsNonExpired
+            ,isEnabled
+            ,isDelete
+            ,sort
+            ,createTime
+            ,updateTime
+            ,createUser
+            ,updateUser
+        </trim>
+    </sql>
+
+    <sql id="insertConfigKeys">
+        <trim prefixOverrides=",">
+            <if test="UUID!=null and UUID!=''">,UUID</if>
+            <if test="account!=null and account!=''">,iAccount</if>
+            <if test="username!=null and username!=''">,username</if>
+            <if test="password!=null and password!=''">,iPassword</if>
+            <if test="qq!=null and qq!=''">,qq</if>
+            <if test="wx!=null and wx!=''">,wx</if>
+            <if test="tell!=null and tell!=''">,tell</if>
+            <if test="isAccountNonExpired!=null and isAccountNonExpired!=''">,isAccountNonExpired</if>
+            <if test="isAccountNonLocked!=null and isAccountNonLocked!=''">,isAccountNonLocked</if>
+            <if test="isCredentialsNonExpired!=null and isCredentialsNonExpired!=''">,isCredentialsNonExpired</if>
+            <if test="isEnabled!=null and isEnabled!=''">,isEnabled</if>
+            <if test="isDelete!=null and isDelete!=''">,isDelete</if>
+            <if test="sort!=0 ">,sort</if>
+            <if test="createTime!=null and createTime!=''">,createTime</if>
+            <if test="updateTime!=null and updateTime!=''">,updateTime</if>
+            <if test="createUser!=null and createUser!=''">,createUser}</if>
+            <if test="updateUser!=null and updateUser!=''">,updateUser</if>
+        </trim>
+    </sql>
+    <sql id="insertConfigVals">
+        <trim prefixOverrides=",">
+            <if test="UUID!=null and UUID!=''">,#{UUID}</if>
+            <if test="account !=null and account !=''">,#{account}</if>
+            <if test="username !=null and username !=''">,#{username }</if>
+            <if test="password!=null and password!=''">,#{password}</if>
+            <if test="qq  !=null and qq  !=''">,#{qq  }</if>
+            <if test="wx  !=null and wx  !=''">,#{wx  }</if>
+            <if test="tell!=null and tell!=''">,#{tell}</if>
+            <if test="isAccountNonExpired  !=null and isAccountNonExpired  !=''">,#{isAccountNonExpired  }</if>
+            <if test="isAccountNonLocked!=null and isAccountNonLocked!=''">,#{isAccountNonLocked}</if>
+            <if test="isCredentialsNonExpired !=null and isCredentialsNonExpired !=''">,#{isCredentialsNonExpired }</if>
+            <if test="isEnabled!=null and isEnabled!=''">,#{isEnabled}</if>
+            <if test="isDelete !=null and isDelete !=''">,#{isDelete }</if>
+            <if test="sort!=null and sort!=''">,#{sort}</if>
+            <if test="createTime  !=null and createTime  !=''">,#{createTime  }</if>
+            <if test="updateTime  !=null and updateTime  !=''">,#{updateTime  }</if>
+            <if test="createUser  !=null and createUser  !=''">,#{createUser  }</if>
+            <if test="updateUser  !=null and updateUser  !=''">,#{updateUser  }</if>
+        </trim>
+    </sql>
+
+    <sql id="UpdateConfig">
+        <set>
+            <trim prefixOverrides=",">
+                <if test="UUID!=null and UUID!=''">
+                    ,UUID =#{UUID}
+                </if>
+                <if test="account !=null and account !=''">
+                    ,iAccount=#{account }
+                </if>
+                <if test="username !=null and username !=''">
+                    ,username=#{username }
+                </if>
+                <if test="password!=null and password!=''">
+                    ,iPassword=#{password}
+                </if>
+                <if test="qq  !=null and qq  !=''">
+                    ,qq=#{qq  }
+                </if>
+                <if test="wx  !=null and wx  !=''">
+                    ,wx=#{wx  }
+                </if>
+                <if test="tell!=null and tell!=''">
+                    ,tell=#{tell}
+                </if>
+                <if test="isAccountNonExpired  !=null and isAccountNonExpired  !=''">
+                    ,isAccountNonExpired=#{isAccountNonExpired  }
+                </if>
+                <if test="isAccountNonLocked!=null and isAccountNonLocked!=''">
+                    ,isAccountNonLocked=#{isAccountNonLocked}
+                </if>
+                <if test="isCredentialsNonExpired !=null and isCredentialsNonExpired !=''">
+                    ,isCredentialsNonExpired=#{isCredentialsNonExpired }
+                </if>
+                <if test="isEnabled!=null and isEnabled!=''">
+                    ,isEnabled=#{isEnabled}
+                </if>
+                <if test="isDelete !=null and isDelete !=''">
+                    ,isDelete=#{isDelete }
+                </if>
+                <if test="sort!=null and sort!=''">
+                    ,sort=#{sort}
+                </if>
+                <if test="createTime  !=null and createTime  !=''">
+                    ,createTime=#{createTime  }
+                </if>
+                <if test="updateTime  !=null and updateTime  !=''">
+                    ,updateTime=#{updateTime  }
+                </if>
+                <if test="createUser  !=null and createUser  !=''">
+                    ,createUser=#{createUser  }
+                </if>
+                <if test="updateUser  !=null and updateUser  !=''">
+                    ,updateUser=#{updateUser  }
+                </if>
+            </trim>
+        </set>
+    </sql>
+
+    <sql id="WhereConfig">
+        <where>
+            <trim prefixOverrides="and">
+                <if test=" UUID!=null and UUID!=''">and UUID=#{UUID}</if>
+                <if test="account !=null and account !=''">and iAccount=#{account }</if>
+                <if test=" username !=null and username !=''">and username=#{username }</if>
+                <if test=" password!=null and password!=''">and iPassword=#{password}</if>
+                <if test=" qq  !=null and qq  !=''">and qq=#{qq}</if>
+                <if test=" wx  !=null and wx  !=''">and wx=#{wx}</if>
+                <if test=" tell!=null and tell!=''">and tell=#{tell}</if>
+                <if test=" isAccountNonExpired!=null and isAccountNonExpired !=''">
+                    andisAccountNonExpired=#{isAccountNonExpired }
+                </if>
+                <if test=" isAccountNonLocked !=null and isAccountNonLocked !=''">
+                    andisAccountNonLocked=#{isAccountNonLocked }
+                </if>
+                <if test=" isCredentialsNonExpired !=null and isCredentialsNonExpired !=''">and
+                    isCredentialsNonExpired=#{isCredentialsNonExpired }
+                </if>
+                <if test=" isEnabled!=null and isEnabled!=''">and isEnabled=#{isEnabled}</if>
+                <if test=" isDelete !=null and isDelete !=''">and isDelete=#{isDelete }</if>
+                <if test=" sort!=null and sort!=''">and sort=#{sort}</if>
+                <if test=" createTime  !=null and createTime !=''">and createTime=#{createTime}</if>
+                <if test=" updateTime  !=null and updateTime !=''">and updateTime=#{updateTime}</if>
+                <if test=" createUser  !=null and createUser !=''">and createUser=#{createUser}</if>
+                <if test=" updateUser  !=null and updateUser !=''">and updateUser=#{updateUser}</if>
+            </trim>
+        </where>
+    </sql>
+
+    <select id="queryById" resultType="com.blog.sso.entity.User">
+        select
+        <include refid="queryKeys"/>
+        from user where UUID =#{UUID}
+    </select>
+    <select id="query" parameterType="com.blog.sso.entity.User">
+        select
+        <include refid="queryKeys"/>
+        from user
+        <include refid="WhereConfig"/>
+    </select>
+    <select id="queryByName" resultType="com.blog.sso.entity.User">
+        select
+        <include refid="queryKeys"/>
+        from user where username =#{username}
+    </select>
+    <select id="queryByAccount" resultType="com.blog.sso.entity.User">
+        select<include refid="queryKeys"/>from user where iAccount=#{account}
+    </select>
+    <select id="hasAccount" resultType="java.lang.Integer">
+        select count(1)
+        from user
+        where iAccount = #{account}
+    </select>
+
+    <update id="edit" parameterType="com.blog.sso.entity.User">
+        update user
+        <include refid="UpdateConfig"/>
+        where UUID = #{UUID}
+    </update>
+
+    <insert id="insert">
+        insert into user(<include refid="insertConfigKeys"></include>)
+        value(<include refid="insertConfigVals"/>)
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from user
+        where UUID = #{UUID}
+    </delete>
+    <delete id="delete">
+        delete
+        from user_role
+        <include refid="WhereConfig"/>
+    </delete>
+</mapper>

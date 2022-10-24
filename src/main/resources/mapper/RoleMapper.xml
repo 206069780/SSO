@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blog.sso.dao.RoleDao">
+    <sql id="queryKeys">
+        <trim prefixOverrides=",">
+            ,UUID,roleName,descriptions,sort,createTime,updateTime,createUser,updateUser
+        </trim>
+    </sql>
+
+    <sql id="insertConfigKeys">
+        <trim prefixOverrides=",">
+            <if test=" UUID        !=null and  UUID        !=''">, UUID</if>
+            <if test=" roleName    !=null and  roleName    !=''">, roleName</if>
+            <if test=" descriptions!=null and  descriptions!=''">, descriptions</if>
+            <if test=" sort        !=null and  sort        !=''">, sort</if>
+            <if test=" createTime  !=null and  createTime  !=''">, createTime</if>
+            <if test=" updateTime  !=null ">, updateTime</if>
+            <if test=" createUser  !=null and  createUser  !=''">, createUser</if>
+            <if test=" updateUser  !=null and  updateUser  !=''">, updateUser</if>
+        </trim>
+    </sql>
+    <sql id="insertConfigVals">
+        <trim prefixOverrides=",">
+            <if test="UUID        !=null and UUID        !=''">,#{UUID        }</if>
+            <if test="roleName    !=null and roleName    !=''">,#{roleName    }</if>
+            <if test="descriptions!=null and descriptions!=''">,#{descriptions}</if>
+            <if test="sort        !=null and sort        !=''">,#{sort        }</if>
+            <if test="createTime  !=null and createTime  !=''">,#{createTime  }</if>
+            <if test="updateTime  !=null ">,#{updateTime  }</if>
+            <if test="createUser  !=null and createUser  !=''">,#{createUser  }</if>
+            <if test="updateUser  !=null and updateUser  !=''">,#{updateUser  }</if>
+        </trim>
+    </sql>
+
+    <sql id="UpdateConfig">
+        <set>
+            <trim prefixOverrides=",">
+                <if test="UUID        !=null and UUID        !=''">,UUID =#{UUID        }</if>
+                <if test="roleName    !=null and roleName    !=''">,roleName =#{roleName    }</if>
+                <if test="descriptions!=null and descriptions!=''">,descriptions=#{descriptions}</if>
+                <if test="sort        !=null and sort        !=''">,sort =#{sort        }</if>
+                <if test="createTime  !=null and createTime  !=''">,createTime =#{createTime  }</if>
+                <if test="updateTime  !=null ">,updateTime =#{updateTime  }</if>
+                <if test="createUser  !=null and createUser  !=''">,createUser =#{createUser  }</if>
+                <if test="updateUser  !=null and updateUser  !=''">,updateUser =#{updateUser  }</if>
+            </trim>
+        </set>
+    </sql>
+
+    <sql id="WhereConfig">
+        <where>
+            <trim prefixOverrides=",">
+                <if test="UUID        !=null and UUID        !=''">and UUID =#{UUID        }</if>
+                <if test="roleName    !=null and roleName    !=''">and roleName =#{roleName    }</if>
+                <if test="descriptions!=null and descriptions!=''">and descriptions=#{descriptions}</if>
+                <if test="sort        !=null and sort        !=''">and sort =#{sort        }</if>
+                <if test="createTime  !=null and createTime  !=''">and createTime =#{createTime  }</if>
+                <if test="updateTime  !=null ">and updateTime =#{updateTime  }</if>
+                <if test="createUser  !=null and createUser  !=''">and createUser =#{createUser  }</if>
+                <if test="updateUser  !=null and updateUser  !=''">and updateUser =#{updateUser  }</if>
+            </trim>
+        </where>
+    </sql>
+
+    <select id="queryById" resultType="com.blog.sso.entity.Role">
+        select
+        <include refid="queryKeys"/>
+        from role where UUID =#{UUID}
+    </select>
+
+    <select id="queryByName" resultType="com.blog.sso.entity.Role">
+        select
+        <include refid="queryKeys"/>
+        from role where roleName =#{roleName}
+    </select>
+    <select id="query" parameterType="com.blog.sso.entity.Role">
+        select
+        <include refid="queryKeys"/>
+        from role
+        <include refid="WhereConfig"/>
+    </select>
+    <update id="edit" parameterType="com.blog.sso.entity.Role">
+        update role
+        <include refid="UpdateConfig"/>
+        where UUID = #{UUID}
+    </update>
+
+    <insert id="insert">
+        insert into role(<include refid="insertConfigKeys"></include>)
+        value(<include refid="insertConfigVals"/>)
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from role
+        where UUID = #{UUID}
+    </delete>
+
+    <delete id="delete">
+        delete from role
+        <include refid="WhereConfig"/>
+    </delete>
+
+
+</mapper>
