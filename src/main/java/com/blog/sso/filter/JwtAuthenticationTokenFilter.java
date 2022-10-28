@@ -88,10 +88,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
                     .setExpiration(time)//过期时间
                     .signWith(SignatureAlgorithm.HS512, secret) //采用什么算法是可以自己选择的，不一定非要采用HS512
                     .compact();
-            // 生成token end
-            // 登录成功后，返回token到header里面
             response.addHeader("Authorization", "Bearer " + token);
-            // 登录成功后，返回token到body里面
             Map<String, Object> resultMap = new HashMap<>();
             resultMap.put("Authorization", token);
             Result result = Result.ok(resultMap);

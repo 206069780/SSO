@@ -4,6 +4,7 @@ import com.blog.sso.dao.UserDao;
 import com.blog.sso.entity.ResponseEntity;
 import com.blog.sso.entity.User;
 import com.blog.sso.exception.UserNameAlreadyExistException;
+import com.blog.sso.exception.UserNameNotFoundException;
 import com.mysql.cj.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.naming.NameNotFoundException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 @Log4j2
@@ -54,14 +57,22 @@ public class UserService extends BaseServiceIml<User, String> {
             log.error("{} is not exists", iAccount);
             return null;
         }
-        return userDao.queryByAccount(iAccount).get();
+        val user = userDao.queryByAccount(iAccount);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new UserNameNotFoundException(Map.of());
     }
 
     public User queryByUserUUID(String UUID) {
-        if (com.baomidou.mybatisplus.core.toolkit.StringUtils.isBlank(UUID)) {
+        if (org.apache.commons.lang3.StringUtils.isBlank(UUID)) {
             return null;
         }
-        return userDao.queryByUserUUID(UUID).get();
+        val user = userDao.queryByUserUUID(UUID);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new UserNameNotFoundException(Map.of());
     }
 
     boolean isNullOrEmpty(String str) {

@@ -11,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -122,5 +123,12 @@ public class GlobalExceptionHandler {
     public Result redisConnectException(RedisConnectException e) {
         log.error(e.getMessage());
         return Result.error("redis 服务异常");
+    }
+
+    @ExceptionHandler(value = UserNameNotFoundException.class)
+    @ResponseBody
+    public Result userNameNotFoundException(UserNameNotFoundException e) {
+        log.error(e.getMessage());
+        return Result.error("用户不存在");
     }
 }

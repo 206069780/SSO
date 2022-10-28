@@ -21,10 +21,7 @@ import java.util.Map;
 
 
 @RestController
-
 public class JwtAuthenticationController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
     @Autowired
     private AuthService authService;
 
@@ -33,7 +30,7 @@ public class JwtAuthenticationController {
 
 
     @PostMapping("/login")
-    public Result login(@RequestBody LoginRequest user) throws Exception {
+    public Result login(@RequestBody LoginRequest user) {
         String token = authService.createToken(user);
         return Result.ok(Map.of("token", token));
 //        return new ResponseEntity().setData(token).setDescription("登录成功");
