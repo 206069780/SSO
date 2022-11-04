@@ -7,6 +7,7 @@ import com.blog.sso.entity.result.Result;
 import com.blog.sso.service.iml.AuthService;
 import com.blog.sso.service.iml.SSOUserDetailsService;
 import com.blog.sso.utils.JwtTokenUtils;
+import com.log.component.aop.ControllerLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,12 +31,14 @@ public class JwtAuthenticationController {
 
 
     @PostMapping("/login")
+    @ControllerLogger
     public Result login(@RequestBody LoginRequest user) {
         String token = authService.createToken(user);
         return Result.ok(Map.of("token", token));
 //        return new ResponseEntity().setData(token).setDescription("登录成功");
     }
 
+    @ControllerLogger
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Result register(@RequestBody LoginRequest user) {
         if (userDetailsService.register(user)) {

@@ -7,6 +7,7 @@ import com.blog.sso.filter.JwtAuthenticationTokenFilter;
 import com.blog.sso.filter.JwtAuthorizationFilter;
 import com.blog.sso.hanld.Http401AuthenticationEntryPoint;
 import com.blog.sso.service.iml.SSOUserDetailsService;
+import com.log.component.aop.ControllerLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 
 import static java.util.Collections.singletonList;
@@ -37,12 +39,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SSOUserDetailsService userDetailsService;
-
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    StringRedisTemplate stringRedisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private ControllerLog controllerLog;
 
 
     @Override
@@ -56,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), stringRedisTemplate))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-              ;
+        ;
         http.headers().frameOptions().disable();
     }
 

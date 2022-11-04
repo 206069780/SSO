@@ -1,5 +1,6 @@
 package com.blog.sso.config;
 
+import com.log.component.aop.ControllerLog;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,16 +18,20 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
+    @Bean("controllerLog")
+    public ControllerLog controllerLog() {
+        return new ControllerLog();
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         final List<GlobalAuthenticationConfigurerAdapter> configurers = new ArrayList<>();
         configurers.add(new GlobalAuthenticationConfigurerAdapter() {
-                            @Override
-                            public void configure(AuthenticationManagerBuilder auth) throws Exception {
-                                // auth.doSomething()
-                            }
-                        }
-        );
+            @Override
+            public void configure(AuthenticationManagerBuilder auth) throws Exception {
+                // auth.doSomething()
+            }
+        });
         return authConfig.getAuthenticationManager();
     }
 
