@@ -1,7 +1,6 @@
 package com.blog.sso.service.iml;
 
 import com.blog.sso.dao.UserDao;
-import com.blog.sso.entity.ResponseEntity;
 import com.blog.sso.entity.User;
 import com.blog.sso.exception.UserNameAlreadyExistException;
 import com.blog.sso.exception.UserNameNotFoundException;
@@ -14,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.naming.NameNotFoundException;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Service
 @Log4j2

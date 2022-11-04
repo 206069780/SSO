@@ -48,12 +48,14 @@ public class JwtAuthenticationController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ControllerLogger
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello() {
         return "hello";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
+    @ControllerLogger
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
         return "Test";
