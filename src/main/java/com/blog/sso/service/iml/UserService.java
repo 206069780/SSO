@@ -4,6 +4,7 @@ import com.blog.sso.dao.UserDao;
 import com.blog.sso.entity.User;
 import com.blog.sso.exception.UserNameAlreadyExistException;
 import com.blog.sso.exception.UserNameNotFoundException;
+import com.blog.sso.exception.UserNameOrPasswordIsNull;
 import com.mysql.cj.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -52,7 +53,7 @@ public class UserService extends BaseServiceIml<User, String> {
     public User queryByAccount(String iAccount) {
         if (isNullOrEmpty(iAccount)) {
             log.error("{} is not exists", iAccount);
-            return null;
+            throw new UserNameOrPasswordIsNull(Map.of(iAccount, "username or password don`t null"));
         }
         val user = userDao.queryByAccount(iAccount);
         if (user.isPresent()) {

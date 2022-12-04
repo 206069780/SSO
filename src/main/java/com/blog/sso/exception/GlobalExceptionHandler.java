@@ -19,6 +19,7 @@ import java.net.ConnectException;
 
 @ControllerAdvice
 @Slf4j
+@ResponseBody
 public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public Result handlerNoFoundException(Exception e) {
@@ -130,5 +131,12 @@ public class GlobalExceptionHandler {
     public Result userNameNotFoundException(UserNameNotFoundException e) {
 //        //log.error(e.getMessage());
         return Result.error("用户不存在");
+    }
+
+    @ExceptionHandler(value = UserNameOrPasswordIsNull.class)
+    @ResponseBody
+    public Result UserNameOrPasswordIsNull(UserNameOrPasswordIsNull e) {
+//        //log.error(e.getMessage());
+        return Result.error("账户或密码不能为空");
     }
 }
