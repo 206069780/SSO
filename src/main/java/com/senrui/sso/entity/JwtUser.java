@@ -11,7 +11,7 @@ public class JwtUser implements UserDetails {
 
     private String id;
     private String username;
-    private String password;
+    private transient String password;
     private Boolean enabled = true;
     private Collection<SimpleGrantedAuthority> authorities;
 
