@@ -13,7 +13,7 @@ public class User extends BaseEntity {
     private String UUID;
     private String account;
     private String username;
-    private String password;
+    private transient String password;
     private String qq;
     private String wx;
     private String tell;
