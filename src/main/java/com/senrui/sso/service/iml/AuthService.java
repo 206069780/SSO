@@ -1,12 +1,12 @@
 package com.senrui.sso.service.iml;
 
+import com.senrui.core.util.JwtTokenUtils;
 import com.senrui.sso.entity.JwtUser;
 import com.senrui.sso.entity.User;
 import com.senrui.sso.entity.dto.LoginRequest;
 import com.senrui.sso.exception.ErrorCode;
 import com.senrui.sso.exception.RedisConnectException;
 import com.senrui.sso.utils.CurrentUserUtils;
-import com.senrui.sso.utils.JwtTokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -12,7 +12,7 @@ public class JwtUser implements UserDetails {
     private String id;
     private String username;
     private transient String password;
-    private Boolean enabled = true;
+    private Boolean enabled ;
     private Collection<SimpleGrantedAuthority> authorities;
 
     public JwtUser() {
@@ -66,6 +66,6 @@ public class JwtUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return true;
     }
 }
