@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blog.sso.dao.RoleDao">
+<mapper namespace="com.senrui.sso.dao.RoleDao">
     <sql id="queryKeys">
         <trim prefixOverrides=",">
             ,UUID,roleName,descriptions,sort,createTime,updateTime,createUser,updateUser
@@ -63,24 +63,24 @@
         </where>
     </sql>
 
-    <select id="queryById" resultType="com.blog.sso.entity.Role">
+    <select id="queryById" resultType="com.senrui.sso.entity.Role">
         select
         <include refid="queryKeys"/>
         from role where UUID =#{UUID}
     </select>
 
-    <select id="queryByName" resultType="com.blog.sso.entity.Role">
+    <select id="queryByName" resultType="com.senrui.sso.entity.Role">
         select
         <include refid="queryKeys"/>
         from role where roleName =#{roleName}
     </select>
-    <select id="query" parameterType="com.blog.sso.entity.Role">
+    <select id="query" parameterType="com.senrui.sso.entity.Role">
         select
         <include refid="queryKeys"/>
         from role
         <include refid="WhereConfig"/>
     </select>
-    <update id="edit" parameterType="com.blog.sso.entity.Role">
+    <update id="edit" parameterType="com.senrui.sso.entity.Role">
         update role
         <include refid="UpdateConfig"/>
         where UUID = #{UUID}

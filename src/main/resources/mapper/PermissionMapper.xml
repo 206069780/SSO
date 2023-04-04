@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blog.sso.dao.PermissionDao">
+<mapper namespace="com.senrui.sso.dao.PermissionDao">
 
     <sql id="queryKeys">
         <trim prefixOverrides=",">
@@ -68,26 +68,26 @@
         </where>
     </sql>
 
-    <select id="queryById" resultType="com.blog.sso.entity.Permission">
+    <select id="queryById" resultType="com.senrui.sso.entity.Permission">
         select
         <include refid="queryKeys"/>
         from permission where UUID =#{UUID}
     </select>
 
-    <select id="query" parameterType="com.blog.sso.entity.Permission">
+    <select id="query" parameterType="com.senrui.sso.entity.Permission">
         select
         <include refid="queryKeys"/>
         from permission
         <include refid="WhereConfig"/>
     </select>
 
-    <select id="queryByName" resultType="com.blog.sso.entity.Permission">
+    <select id="queryByName" resultType="com.senrui.sso.entity.Permission">
         select
         <include refid="queryKeys"/>
         from permission where permissionName =#{permissionName}
     </select>
 
-    <update id="edit" parameterType="com.blog.sso.entity.Permission">
+    <update id="edit" parameterType="com.senrui.sso.entity.Permission">
         update permission
         <include refid="UpdateConfig"/>
         where UUID = #{UUID}

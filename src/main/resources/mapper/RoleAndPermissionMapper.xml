@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blog.sso.dao.RoleAndPermissionDao">
+<mapper namespace="com.senrui.sso.dao.RoleAndPermissionDao">
 
     <sql id="queryKeys">
         <trim prefixOverrides=",">
@@ -71,13 +71,13 @@
         </where>
     </sql>
 
-    <select id="queryById" resultType="com.blog.sso.entity.RoleAndPermission">
+    <select id="queryById" resultType="com.senrui.sso.entity.RoleAndPermission">
         select
         <include refid="queryKeys"/>
         from role_permission where UUID =#{UUID}
     </select>
 
-    <select id="query" parameterType="com.blog.sso.entity.RoleAndPermission">
+    <select id="query" parameterType="com.senrui.sso.entity.RoleAndPermission">
         select
         <include refid="queryKeys"/>
         from role_permission
@@ -85,7 +85,7 @@
     </select>
 
 
-    <update id="edit" parameterType="com.blog.sso.entity.RoleAndPermission">
+    <update id="edit" parameterType="com.senrui.sso.entity.RoleAndPermission">
         update role_permission
         <include refid="UpdateConfig"/>
         where UUID = #{UUID}
@@ -101,7 +101,7 @@
         from role_permission
         where UUID = #{UUID}
     </delete>
-    <select id="queryByName" resultType="com.blog.sso.entity.RoleAndPermission">
+    <select id="queryByName" resultType="com.senrui.sso.entity.RoleAndPermission">
         select UUID
         from role_permission
         where UUID = -1

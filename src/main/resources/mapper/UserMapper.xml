@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blog.sso.dao.UserDao">
-    <resultMap id="permissionMap" type="com.blog.sso.entity.Permission">
+<mapper namespace="com.senrui.sso.dao.UserDao">
+    <resultMap id="permissionMap" type="com.senrui.sso.entity.Permission">
         <result column="pUUID" property="UUID"></result>
         <result column="ppermissionName" property="permissionName"></result>
         <result column="pdescriptions" property="descriptions"></result>
@@ -12,7 +12,7 @@
         <result column="pupdateTime" property="updateTime"></result>
         <result column="pcreateUser" property="createUser"></result>
     </resultMap>
-    <resultMap id="rolePermissionMap" type="com.blog.sso.entity.Role">
+    <resultMap id="rolePermissionMap" type="com.senrui.sso.entity.Role">
         <result column="rUUID" property="UUID"></result>
         <result column="rroleName" property="roleName"></result>
         <result column="rdescriptions" property="descriptions"></result>
@@ -20,10 +20,10 @@
         <result column="rcreateTime" property="createTime"></result>
         <result column="rupdateTime" property="updateTime"></result>
         <result column="rcreateUse" property="createUser"></result>
-        <collection property="permissionsList" ofType="com.blog.sso.entity.Permission" resultMap="permissionMap"/>
+        <collection property="permissionsList" ofType="com.senrui.sso.entity.Permission" resultMap="permissionMap"/>
     </resultMap>
 
-    <resultMap id="userMap" type="com.blog.sso.entity.User">
+    <resultMap id="userMap" type="com.senrui.sso.entity.User">
         <result column="uUUID" property="UUID"/>
         <result column="uiAccount" property="account"/>
         <result column="uusername" property="username"/>
@@ -41,7 +41,7 @@
         <result column="uupdateTime" property="updateTime"/>
         <result column="ucreateUser" property="createUser"/>
         <result column="uupdateUser" property="updateUser"/>
-        <collection property="roleList" ofType="com.blog.sso.entity.Role" resultMap="rolePermissionMap"/>
+        <collection property="roleList" ofType="com.senrui.sso.entity.Role" resultMap="rolePermissionMap"/>
     </resultMap>
     <select id="queryByUserUUID" resultMap="userMap">
         select u.UUID                    uUUID,
@@ -237,23 +237,23 @@
         </where>
     </sql>
 
-    <select id="queryById" resultType="com.blog.sso.entity.User">
+    <select id="queryById" resultType="com.senrui.sso.entity.User">
         select
         <include refid="queryKeys"/>
         from user where UUID =#{UUID}
     </select>
-    <select id="query" parameterType="com.blog.sso.entity.User">
+    <select id="query" parameterType="com.senrui.sso.entity.User">
         select
         <include refid="queryKeys"/>
         from user
         <include refid="WhereConfig"/>
     </select>
-    <select id="queryByName" resultType="com.blog.sso.entity.User">
+    <select id="queryByName" resultType="com.senrui.sso.entity.User">
         select
         <include refid="queryKeys"/>
         from user where username =#{username}
     </select>
-    <select id="queryByAccount" resultType="com.blog.sso.entity.User">
+    <select id="queryByAccount" resultType="com.senrui.sso.entity.User">
         select<include refid="queryKeys"/>from user where iAccount=#{account}
     </select>
     <select id="hasAccount" resultType="java.lang.Integer">
@@ -262,7 +262,7 @@
         where iAccount = #{account}
     </select>
 
-    <update id="edit" parameterType="com.blog.sso.entity.User">
+    <update id="edit" parameterType="com.senrui.sso.entity.User">
         update user
         <include refid="UpdateConfig"/>
         where UUID = #{UUID}
