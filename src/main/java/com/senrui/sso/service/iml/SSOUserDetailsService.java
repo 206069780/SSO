@@ -100,7 +100,8 @@ public class SSOUserDetailsService {
         Role role = roleService.queryByName("ROLE_USER", "roleDao");
         UserAndRole userAndRole = new UserAndRole()
                 .setUUID(userAndRoleUUID)
-                .setRoleId(role.getUUID()).setUserId(user.getUUID());
+                .setRoleId(role.getUUID())
+                .setUserId(user.getUUID());
 
         boolean userInsert = userService.insert(user, "userDao");
         boolean userRoleInsert = userAndRoleService.insert(userAndRole, "userAndRoleDao");

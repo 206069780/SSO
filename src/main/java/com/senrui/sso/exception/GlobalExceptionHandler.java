@@ -8,6 +8,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,8 +41,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e) {
-        //log.error(e.getMessage());
+        e.printStackTrace();
         return Result.error();
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public Result authenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException authenticationCredentialsNotFoundException) {
+        log.info(authenticationCredentialsNotFoundException.getMessage());
+        return Result.error("token 缺失");
     }
 
     @ExceptionHandler(ServiceException.class)

@@ -1,5 +1,6 @@
 package com.senrui.sso.entity.result;
 
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Map;
 
